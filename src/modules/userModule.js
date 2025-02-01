@@ -59,8 +59,8 @@ const getUserDetails = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         const user = await UserModel.findByIdAndDelete(req.params.id)
-        return res.status(204).json({
-            status: 204,
+        return res.status(201).json({
+            status: 201,
             message: "user Deleted successfully",
             data: user
         })
@@ -97,4 +97,36 @@ const updateUser = async (req, res) => {
 }
 
 
-export default { createUser, getUsers, getUserDetails, deleteUser, updateUser };
+const userLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        const userByEmail = await UserModel.findOne({email})
+        if (!userByEmail) {
+            return res.status(404).json({
+                status: 404,
+                message: "User Email not found",
+            });
+        }
+        const userByPassword = await UserModel.findOne({ password })
+        if (!userByPassword) {
+            return res.status(404).json({
+                status: 404,
+                message: "User Password not found",
+            });
+        }
+        return res.status(200).json({
+            status: 200,
+            message: "logged In successfully",
+            data: userByPassword
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            message: "error occured",
+            error
+        })
+    }
+}
+
+
+export default { createUser, getUsers, getUserDetails, deleteUser, updateUser, userLogin };
