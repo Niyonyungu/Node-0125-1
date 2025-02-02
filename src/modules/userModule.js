@@ -1,9 +1,13 @@
 import UserModel from "../database/models/userModel.js"
+import bcrypt from "bcrypt"
 
 const createUser = async(req , res) =>{
 
     try {
-        const UserData = req.body
+        let UserData = req.body
+        console.log("password before Hashing::::::::::", UserData.password)
+        const userPassword = await bcrypt.hash(UserData.password, 10)
+        UserData = {...UserData, password:userPassword}
         const user = await UserModel.create(UserData)
         return res.status(201).json({
             status: 201,
@@ -107,8 +111,10 @@ const userLogin = async (req, res) => {
                 message: "User Email not found",
             });
         }
-        const userByPassword = await UserModel.findOne({ password })
-        if (!userByPassword) {
+        const userByPassword = userByEmail.password
+        const isPasswordValid = await bcrypt.compare(password, userByPassword);
+
+        if (!isPasswordValid) {
             return res.status(404).json({
                 status: 404,
                 message: "User Password not found",
@@ -117,7 +123,7 @@ const userLogin = async (req, res) => {
         return res.status(200).json({
             status: 200,
             message: "logged In successfully",
-            data: userByPassword
+            data: userByEmail
         })
     } catch (error) {
         return res.status(500).json({
