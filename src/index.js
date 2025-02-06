@@ -2,13 +2,16 @@ import express from 'express';
 import DbConnection from './database/config/connection.js';
 import dotenv from "dotenv";
 import userRouter from './routes/userRoutes.js';
-
+import authRouter from './routes/authRoutes.js';
+import productRouter from './routes/productRoutes.js';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use("/api", userRouter)
+app.use("/api", authRouter)
+app.use("/api", productRouter)
 
 app.get("/", (req, res) => {
     res.status(404).json({

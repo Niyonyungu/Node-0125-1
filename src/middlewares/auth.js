@@ -1,0 +1,31 @@
+import jwt from "jsonwebtoken"
+import UserModel from "../database/models/userModel";
+
+const isAuthorized = async (req, res, next) => {
+
+    // checking the token 
+    console.log(req.headers['authorization']);
+    
+    const token = req.headers["authorization"]?.split(" ")[1];
+    if (!token) {
+        return res.status(401).json({ status: 401, message: "no token ! Login required" });
+    }
+    // decoding the token 
+    const decodedUser = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    // getting the user id from the token  
+    const id = decodedUser.id;
+    // finding if we have that user using the id 
+    const loggedUser = await UserModel.findById(id)
+    if (!loggedUser){
+        return res.status(404).json({
+            status: 404,
+            message: "user not found!",
+        })
+    } 
+    
+    req.user = loggedUser;
+    next();
+
+};
+
+export default isAuthorized
