@@ -1,11 +1,36 @@
-import UserModel from "../database/models/userModel.js"
+import UserModel from "../database/models/userModel"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 
 dotenv.config();
 
-export const userLogin = async (req, res) => {
+const createUser = async (req, res) => {
+
+    try {
+        let UserData = req.body
+        console.log("password before Hashing::::::::::", UserData.password)
+        const userPassword = await bcrypt.hash(UserData.password, 10)
+        UserData = { ...UserData, password: userPassword }
+        const user = await UserModel.create(UserData)
+        return res.status(201).json({
+            status: 201,
+            message: "user created successfully",
+            data: user
+        })
+
+
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            message: "error occured",
+            error
+        })
+    }
+
+}
+
+ const userLogin = async (req, res) => {
     try {
         const { email, password } = req.body
         // checking if the user (req) has the same email from the userModel
@@ -43,3 +68,4 @@ export const userLogin = async (req, res) => {
 }
 
 
+export default { userLogin, createUser }

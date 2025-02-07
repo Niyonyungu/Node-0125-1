@@ -4,8 +4,6 @@ import UserModel from "../database/models/userModel";
 const isAuthorized = async (req, res, next) => {
 
     // checking the token 
-    console.log(req.headers['authorization']);
-    
     const token = req.headers["authorization"]?.split(" ")[1];
     if (!token) {
         return res.status(401).json({ status: 401, message: "no token ! Login required" });
@@ -22,7 +20,7 @@ const isAuthorized = async (req, res, next) => {
             message: "user not found!",
         })
     } 
-    
+    // setting the user to the request to the logged in user (This is accesed grobally)
     req.user = loggedUser;
     next();
 

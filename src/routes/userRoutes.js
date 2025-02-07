@@ -1,16 +1,15 @@
 import express from "express"
-import user from "../controllers/userController.js";
-import isAuthorized from "../middlewares/auth.js";
-import roleMiddleware from "../middlewares/authRole.js";
+import user from "../controllers/userController";
+import isAuthorized from "../middlewares/auth";
+import roleMiddleware from "../middlewares/authRole";
 
 const userRouter = express.Router()
 
-userRouter.post("/createUser", isAuthorized , roleMiddleware(["admin"]), user.createUser);
-userRouter.get("/getAllUsers", isAuthorized, roleMiddleware(["admin"]), user.getUsers);
-userRouter.get("/getUserDetails/:id", isAuthorized, roleMiddleware(["admin"]), user.getUserDetails);
+userRouter.get("/users", isAuthorized, roleMiddleware(["admin", "manager"]), user.getUsers);
+userRouter.get("/userDetails/:id", isAuthorized, roleMiddleware(["admin"]), user.getUserDetails);
 userRouter.delete("/deleteUser/:id", isAuthorized, roleMiddleware(["admin"]), user.deleteUser);
 userRouter.delete("/deleteAllUsers", isAuthorized, roleMiddleware(["admin"]), user.deleteAllUsers);
-userRouter.patch("/updateUser/:id", isAuthorized, roleMiddleware(["admin"]), user.updateUser);
+userRouter.patch("/updateUser/:id", isAuthorized, roleMiddleware(["admin", "manager" ]), user.updateUser);
 
 export default userRouter;
 

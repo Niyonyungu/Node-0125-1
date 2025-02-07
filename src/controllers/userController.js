@@ -1,33 +1,8 @@
-import UserModel from "../database/models/userModel.js"
+import UserModel from "../database/models/userModel"
 import bcrypt from "bcrypt"
 import dotenv from "dotenv"
 
 dotenv.config();
-
-const createUser = async (req, res) => {
-
-    try {
-        let UserData = req.body
-        console.log("password before Hashing::::::::::", UserData.password)
-        const userPassword = await bcrypt.hash(UserData.password, 10)
-        UserData = { ...UserData, password: userPassword }
-        const user = await UserModel.create(UserData)
-        return res.status(201).json({
-            status: 201,
-            message: "user created successfully",
-            data: user
-        })
-
-
-    } catch (error) {
-        return res.status(500).json({
-            status: 500,
-            message: "error occured",
-            error
-        })
-    }
-
-}
 
 const getUsers = async (req, res) => {
     try {
@@ -62,6 +37,7 @@ const getUserDetails = async (req, res) => {
         })
     }
 }
+
 
 const deleteUser = async (req, res) => {
     try {
@@ -127,4 +103,4 @@ const updateUser = async (req, res) => {
 }
 
 
-export default { createUser, getUsers, getUserDetails, deleteUser, deleteAllUsers, updateUser };
+export default { getUsers, getUserDetails, deleteUser, deleteAllUsers, updateUser };
