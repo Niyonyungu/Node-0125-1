@@ -38,7 +38,6 @@ const getUserDetails = async (req, res) => {
     }
 }
 
-
 const deleteUser = async (req, res) => {
     try {
         const user = await UserModel.findByIdAndDelete(req.params.id)
@@ -101,6 +100,5 @@ const updateUser = async (req, res) => {
         })
     }
 }
-
 
 export default { getUsers, getUserDetails, deleteUser, deleteAllUsers, updateUser };

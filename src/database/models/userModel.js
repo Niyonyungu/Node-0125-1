@@ -21,9 +21,9 @@ const userSchema = mongoose.Schema({
         unique: true
     },
 },
-{
-    timestamps: true
-}
+    {
+        timestamps: true
+    }
 )
 
 const UserModel = mongoose.model("users", userSchema)

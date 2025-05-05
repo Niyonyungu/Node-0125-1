@@ -2,7 +2,6 @@
   "name": "node1",
   "version": "1.0.0",
   "description": "note kickstart with trainer inono",
-  "main": "index.js", 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec babel-node src/index.js",

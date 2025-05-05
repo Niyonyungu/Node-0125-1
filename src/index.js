@@ -16,19 +16,17 @@ app.use("/api", userRouter)
 app.use("/api", authRouter)
 app.use("/api", productRouter)
 
-
-
 app.get("/", (req, res) => {
     res.status(404).json({
         message: 'Back End setted successfully!',
     });
 })
+
 app.use((req, res) => {
     res.status(404).json({
         message: 'Endpoint not found. Please check the URL very well!',
     });
 });
-
 
 const port = process.env.PORT || 3000;
 

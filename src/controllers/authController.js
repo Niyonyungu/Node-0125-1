@@ -6,7 +6,15 @@ import dotenv from "dotenv"
 dotenv.config();
 
 const createUser = async (req, res) => {
-
+    // checking if the user already exists
+    const { email } = req.body
+    const user = await UserModel.findOne({ email })
+    if (user) {
+        return res.status(500).json({
+            status: 500,
+            message: "User already exists",
+        });
+    }
     try {
         let UserData = req.body
         console.log("password before Hashing::::::::::", UserData.password)
@@ -19,7 +27,6 @@ const createUser = async (req, res) => {
             data: user
         })
 
-
     } catch (error) {
         return res.status(500).json({
             status: 500,
@@ -30,7 +37,7 @@ const createUser = async (req, res) => {
 
 }
 
- const userLogin = async (req, res) => {
+const userLogin = async (req, res) => {
     try {
         const { email, password } = req.body
         // checking if the user (req) has the same email from the userModel
