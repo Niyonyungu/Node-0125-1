@@ -1,5 +1,4 @@
 import UserModel from "../database/models/userModel"
-import bcrypt from "bcrypt"
 import dotenv from "dotenv"
 
 dotenv.config();
