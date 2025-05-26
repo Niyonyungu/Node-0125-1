@@ -6,7 +6,7 @@ import dotenv from "dotenv"
 dotenv.config();
 
 const createUser = async (req, res) => {
-    // checking if the user already exists
+    
     const { email } = req.body
     const user = await UserModel.findOne({ email })
     if (user) {
