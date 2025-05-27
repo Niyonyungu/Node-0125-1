@@ -11,15 +11,19 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    role: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: true,
         unique: true
     },
 },
-{
-    timestamps: true
-}
+    {
+        timestamps: true
+    }
 )
 
 const UserModel = mongoose.model("users", userSchema)
