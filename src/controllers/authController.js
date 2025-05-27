@@ -2,11 +2,12 @@ import UserModel from "../database/models/userModel"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import { hashPassword } from "../helpers/authHelpers"
 
 dotenv.config();
 
 const createUser = async (req, res) => {
-    
+
     const { email } = req.body
     const user = await UserModel.findOne({ email })
     if (user) {
@@ -18,7 +19,7 @@ const createUser = async (req, res) => {
     try {
         let UserData = req.body
         console.log("password before Hashing::::::::::", UserData.password)
-        const userPassword = await bcrypt.hash(UserData.password, 10)
+        const userPassword = await hashPassword(UserData.password, 10)
         UserData = { ...UserData, password: userPassword }
         const user = await UserModel.create(UserData)
         return res.status(201).json({
