@@ -1,6 +1,5 @@
 import UserModel from "../models/userModel";
 import { hashPassword } from "../../helpers/authHelpers";
-import DbConnection from "../config/connection";
 
 const seedUsers = async () => {
     const users = [
@@ -17,9 +16,9 @@ const seedUsers = async () => {
             role: "manager",
         },
     ];
+    // await User.deleteMany();
     await UserModel.insertMany(users);
     console.log("Users added well", users);
 };
-DbConnection().then(() => {
-    seedUsers();
-})
+
+export default seedUsers;
