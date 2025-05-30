@@ -11,6 +11,10 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    profileImage: {
+        type: String,
+        required: false
+      },
     role: {
         type: String,
         required: true

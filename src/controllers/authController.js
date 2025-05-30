@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 import { hashPassword } from "../helpers/authHelpers"
+import { uploadToCloud } from "../helpers/cloudinary"
 
 dotenv.config();
 
@@ -20,7 +21,8 @@ const createUser = async (req, res) => {
         let UserData = req.body
         console.log("password before Hashing::::::::::", UserData.password)
         const userPassword = await hashPassword(UserData.password, 10)
-        UserData = { ...UserData, password: userPassword }
+        const profileImage = await uploadToCloud(req.file)
+        UserData = { ...UserData, password: userPassword, profileImage }
         const user = await UserModel.create(UserData)
         return res.status(201).json({
             status: 201,
