@@ -18,4 +18,6 @@ const uploadImage = multer({
     },
 });
 
-export default uploadImage;
+const uploadProfile = uploadImage.single("profileImage");
+
+export default uploadProfile;
